@@ -29,7 +29,7 @@ cache:
     - C:/Tools/vcpkg/installed -> appveyor.yml
 
 clone_script:
-    - echo "Skip appveyor clone"
+    - git clone https://github.com/%APPVEYOR_REPO_NAME%.git
 
 install:
     - cmd: |-
@@ -44,15 +44,10 @@ install:
         vcpkg install libpng:x64-windows-static
         vcpkg install lz4:x64-windows-static
         vcpkg install sqlite3:x64-windows-static
-        git init %APPVEYOR_BUILD_FOLDER%
-        cd %APPVEYOR_BUILD_FOLDER%
-        git remote add origin https://github.com/%APPVEYOR_REPO_NAME%.git
-        git fetch -q origin %APPVEYOR_REPO_COMMIT%
-        git checkout -qf %APPVEYOR_REPO_COMMIT%
 
 before_build:
     - cmd: |-
-        git lfs prune
+        cd %APPVEYOR_BUILD_FOLDER%
         mkdir build
         cd build
         echo %PATH%
